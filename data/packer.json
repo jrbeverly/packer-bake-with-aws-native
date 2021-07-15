@@ -1,0 +1,32 @@
+{
+  "variables": {
+    "vpc_id": "",
+    "subnet_id": ""
+  },
+  "builders": [
+    {
+      "ami_name": "yum-upgrade {{timestamp}}",
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "vpc_id": "{{user `vpc_id`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["sleep 30"]
+    }
+  ]
+}
